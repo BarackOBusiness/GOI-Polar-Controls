@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace polar;
 
-[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Inputs", "0.9.0")]
+[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Inputs", "0.9.2")]
 public class PolarCoordinates : BaseUnityPlugin
 {
 	ConfigEntry<float> RotationSens;
@@ -169,14 +169,19 @@ class PlayerControl2 : MonoBehaviour {
 		float mouseX = Input.GetAxis("Mouse X") * HingeSensitivity;
 		float mouseY = Input.GetAxis("Mouse Y") * SliderSensitivity;
 
-		float motorSpeed = Mathf.Lerp(motor.motorSpeed, mouseX, 1.0f / 3.0f);
-		float sliderSpeed = Mathf.Lerp(slider.motorSpeed, mouseY, 0.1f);
+		float motorSpeed = CircularLerp(motor.motorSpeed, mouseX, 1.0f / 3.0f);
+		float sliderSpeed = CircularLerp(slider.motorSpeed, mouseY, 0.125f);
 		
 		motor.motorSpeed = -Mathf.Clamp(motorSpeed, -800f, 800f);
 		hj.motor = motor;
 
 		slider.motorSpeed = Mathf.Clamp(sliderSpeed, -50f, 50f);
 		sj.motor = slider;
+	}
+
+	private float CircularLerp(float start, float end, float t) {
+		float factor = Mathf.Sin(0.5f * Mathf.PI * t);
+		return start + ((end - start) * factor);
 	}
 }
 

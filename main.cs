@@ -52,13 +52,8 @@ class PlayerControl2 : MonoBehaviour {
 	private JointMotor2D motor;
 	private JointMotor2D slider;
 
-	private float HingeSensitivity = 1200f;
-	private float SliderSensitivity = 25f;
-
-	private float lastX;
-	private float currentX;
-	private float lastY;
-	private float currentY;
+	private float HingeSensitivity = 3600f;
+	private float SliderSensitivity = 50f;
 
 	private float pauseInputTimer;
 
@@ -75,8 +70,8 @@ class PlayerControl2 : MonoBehaviour {
 	private int numWins;
 
 	public void Init(float hingeSens, float sliderSens) {
-		HingeSensitivity = hingeSens * 1200f; // A reasonable default sensitivity 
-		SliderSensitivity = sliderSens * 25f; // A reasonable default sensitivity here too
+		HingeSensitivity = hingeSens * 3600f; // A reasonable default sensitivity 
+		SliderSensitivity = sliderSens * 50f; // A reasonable default sensitivity here too
 	}
 
 	private void Awake() {
@@ -171,18 +166,16 @@ class PlayerControl2 : MonoBehaviour {
 	}
 
 	private void FixedUpdate() {
-		lastX = currentX;
-		lastY = currentY;
-		currentX = Input.GetAxis("Mouse X") * HingeSensitivity;
-		currentY = Input.GetAxis("Mouse Y") * SliderSensitivity;
+		float mouseX = Input.GetAxis("Mouse X") * HingeSensitivity;
+		float mouseY = Input.GetAxis("Mouse Y") * SliderSensitivity;
 
-		float interX = Mathf.Lerp(lastX, currentX, 0.5f); // One frame smoothing applied to the mouse inputs, this is only done because bennett's code also did
-		float interY = Mathf.Lerp(lastY, currentY, 0.5f); // Functionally the polar control scheme behaves identically without it
+		float motorSpeed = Mathf.Lerp(motor.motorSpeed, mouseX, 1.0f / 3.0f);
+		float sliderSpeed = Mathf.Lerp(slider.motorSpeed, mouseY, 0.1f);
 		
-		motor.motorSpeed = -Mathf.Clamp(interX, -800f, 800f);
+		motor.motorSpeed = -Mathf.Clamp(motorSpeed, -800f, 800f);
 		hj.motor = motor;
 
-		slider.motorSpeed = Mathf.Clamp(interY, -50f, 50f);
+		slider.motorSpeed = Mathf.Clamp(sliderSpeed, -50f, 50f);
 		sj.motor = slider;
 	}
 }

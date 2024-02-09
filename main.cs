@@ -52,8 +52,8 @@ class PlayerControl2 : MonoBehaviour {
 	private JointMotor2D motor;
 	private JointMotor2D slider;
 
-	private float HingeSensitivity = 3600f;
-	private float SliderSensitivity = 50f;
+	private float HingeSensitivity = 3200f;
+	private float SliderSensitivity = 25f;
 
 	private float pauseInputTimer;
 
@@ -70,8 +70,8 @@ class PlayerControl2 : MonoBehaviour {
 	private int numWins;
 
 	public void Init(float hingeSens, float sliderSens) {
-		HingeSensitivity = hingeSens * 3600f; // A reasonable default sensitivity 
-		SliderSensitivity = sliderSens * 50f; // A reasonable default sensitivity here too
+		HingeSensitivity = hingeSens * 3200f; // A reasonable default sensitivity 
+		SliderSensitivity = sliderSens * 25f; // A reasonable default sensitivity here too
 	}
 
 	private void Awake() {

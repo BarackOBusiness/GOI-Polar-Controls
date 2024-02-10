@@ -1,5 +1,5 @@
 ﻿// I don't want the mod to display "Getting Over It with Barack OBusiness" on the title screen for player builds
-// #define RELEASE
+#define RELEASE
 
 using BepInEx;
 using BepInEx.Configuration;
@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace polar;
 
-[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Inputs", "0.9.2")]
+[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Inputs", "1.0.0")]
 public class PolarCoordinates : BaseUnityPlugin
 {
 	ConfigEntry<float> RotationSens;

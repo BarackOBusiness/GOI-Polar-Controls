@@ -6,7 +6,7 @@ using Rewired;
 
 namespace polar;
 
-[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Input Scheme", "2.0.0")]
+[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Input Scheme", "2.1.0")]
 public class PolarCoordinates : BaseUnityPlugin
 {
 	static ConfigEntry<float> rotationSens;

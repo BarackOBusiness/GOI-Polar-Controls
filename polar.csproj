@@ -19,6 +19,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>./lib/net46/Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>./lib/net46/Rewired_Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

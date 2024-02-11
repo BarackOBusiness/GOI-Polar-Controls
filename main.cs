@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
+using Rewired;
 
 namespace polar;
 
@@ -24,20 +25,16 @@ public class PolarCoordinates : BaseUnityPlugin
 
 	[HarmonyPatch(typeof(PlayerControl), "FixedUpdate")]
 	[HarmonyPrefix]
-	static bool RealFixedUpdate(PlayerControl __instance, ref JointMotor2D ___motor, ref JointMotor2D ___slider) {
+	static bool RealFixedUpdate(PlayerControl __instance, ref Player ___player, ref JointMotor2D ___motor, ref JointMotor2D ___slider) {
 		if (!destroyedCursor && __instance.fakeCursor.gameObject != null) {
 			Component.Destroy(__instance.fakeCursor.GetComponent<SpriteRenderer>());
 			destroyedCursor = true;
 		}
-		
-		if (!__instance.loadFinished) {
-			return false;
-		}
 	
-		// The 3200 and 25 here are good default sensitivity values for a ~1500 dpi mouse
+		// The 3000 and 1.5625 here are good default sensitivity values for a ~1600 dpi mouse
 		// so sensitivity config values are just a multiplier of that
-		float mouseX = Input.GetAxis("Mouse X") * 3200f * rotationSens.Value;
-		float mouseY = Input.GetAxis("Mouse Y") * 25f * sliderSens.Value;
+		float mouseX = ___player.GetAxis("mouseX") * 400f * rotationSens.Value;
+		float mouseY = ___player.GetAxis("mouseY") * 1.5625f * sliderSens.Value;
 
 		float motorSpeed = CircularLerp(___motor.motorSpeed, mouseX, 1.0f / 3.0f);
 		___motor.motorSpeed = -Mathf.Clamp(motorSpeed, -800f, 800f);
@@ -48,6 +45,12 @@ public class PolarCoordinates : BaseUnityPlugin
 		__instance.sj.motor = ___slider;
 
 		return false;
+	}
+
+	[HarmonyPatch(typeof(PlayerControl), "Start")]
+	[HarmonyPostfix]
+	static void Cleanup() {
+		destroyedCursor = false;
 	}
 
 	static float CircularLerp(float start, float end, float t) {

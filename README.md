@@ -26,5 +26,5 @@ Then modify the `Rotation Sensitivity` values and `Slider Sensitivity` values to
 
 ## Compilation
 Make sure you have a dotnet sdk installed, version 7.x is verified to work here.\
-Clone the repository, and create the directory `lib/net46` within the project root, copy GOIs Assembly-CSharp.dll into it.\
+Clone the repository, and create the directory `lib/net46` within the project root, copy GOIs Assembly-CSharp.dll and Rewired_Core.dll into it.\
 Use `dotnet build` to compile the project, and the dll can then be found in the `bin/Debug/net46` folder

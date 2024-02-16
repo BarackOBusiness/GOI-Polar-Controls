@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <AssemblyName>PolarCoordinates</AssemblyName>
+    <Description>My first Getting Over It mod</Description>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>PolarCoordinates</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+  If you need to access code from the game, you can add Assembly-CSharp as a reference here  
+  -->
+  <ItemGroup>
+    <Reference Include="GOIModManager">
+      <HintPath>lib/net46/GOIModManager.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>lib/net46/Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Rewired_Core">
+      <HintPath>lib/net46/Rewired_Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="UnityEngine.Modules" Version="2020.3.6" IncludeAssets="compile" />
+    <PackageReference Include="HarmonyX" Version="2.12.0" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>PolarCoordinates</AssemblyName>
-    <Description>My first Getting Over It mod</Description>
+    <Description>A challenge mod for GOI that replaces the input scheme of the game.</Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -20,13 +20,13 @@
   -->
   <ItemGroup>
     <Reference Include="GOIModManager">
-      <HintPath>lib/net46/GOIModManager.dll</HintPath>
+      <HintPath>lib/netstandard2.0/GOIModManager.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>lib/net46/Assembly-CSharp.dll</HintPath>
+      <HintPath>lib/netstandard2.0/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
-      <HintPath>lib/net46/Rewired_Core.dll</HintPath>
+      <HintPath>lib/netstandard2.0/Rewired_Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 

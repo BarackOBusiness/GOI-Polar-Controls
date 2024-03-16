@@ -1,5 +1,4 @@
 ﻿using GOIModManager.Core;
-using Newtonsoft.Json;
 using HarmonyLib;
 using UnityEngine;
 using Rewired;
@@ -8,8 +7,9 @@ namespace PolarCoordinates;
 
 public class PolarCoordinates : IMod {
 	public string Name { get; } = "Polar Coordinates"; // A user friendly name for the mod
-	public string Description { get; } = "A challenge mod that replaces the input scheme of the game.\nYour mouse's x axis will control the rotation of the hammer, and the y axis the extension of the hammer.\nThis is as opposed to controlling a cursor that the hammer simply follows.";
-	public ModConfiguration Configuration { get; private set; } = new PolarCoordinatesConfig();
+	public string Description { get; } = "A challenge mod that replaces the input scheme of the game.\nYour mouse's x axis will control the rotation of the hammer, and the y axis the extension of the hammer.";
+	public static PolarCoordinatesConfig MyConfiguration = new PolarCoordinatesConfig();
+	public ModConfiguration Configuration => MyConfiguration;
 
 	private Harmony patcher;
 
@@ -60,14 +60,14 @@ public class MyPatches {
 			return false;
 		}
 	
-		float mouseX = ___player.GetAxis("mouseX") * 400f * PolarCoordinatesConfig.RotationSens;
-		float mouseY = ___player.GetAxis("mouseY") * 1.5625f * PolarCoordinatesConfig.SliderSens;
+		float mouseX = ___player.GetAxis("mouseX") * 400f * PolarCoordinates.MyConfiguration.RotationSens;
+		float mouseY = ___player.GetAxis("mouseY") * 1.5625f * PolarCoordinates.MyConfiguration.SliderSens;
 
-		float motorSpeed = Utils.CircularLerp(___motor.motorSpeed, mouseX, 1.0f / 3.0f);
+		float motorSpeed = Mathf.SmoothStep(___motor.motorSpeed, mouseX, 0.5f);
 		___motor.motorSpeed = -Mathf.Clamp(motorSpeed, -800f, 800f);
 		__instance.hj.motor = ___motor;
 
-		motorSpeed = Utils.CircularLerp(___slider.motorSpeed, mouseY, 0.125f);
+		motorSpeed = Mathf.SmoothStep(___slider.motorSpeed, mouseY, 0.25f);
 		___slider.motorSpeed = Mathf.Clamp(motorSpeed, -50f, 50f);
 		__instance.sj.motor = ___slider;
 	
@@ -79,17 +79,8 @@ public class PolarCoordinatesConfig : ModConfiguration {
 	public override bool IsEnabled { get; set; } = true;
 
 	[ConfigurationItem("Rotation Sensitivity", "How sensitive the hammer's rotation is to your mouse input")]
-	[JsonProperty("Rotation Sensitivity")]
-	public static float RotationSens = 1.0f;
+	public float RotationSens = 1.0f;
 	
 	[ConfigurationItem("Slider Sensitivity", "How sensitive the hammer's extension is to your mouse input")]
-	[JsonProperty("Slider Sensitivity")]
-	public static float SliderSens = 1.0f;
-}
-
-public static class Utils {
-	public static float CircularLerp(float start, float end, float t) {
-		float factor = Mathf.Sin(0.5f * Mathf.PI * t);
-		return start + ((end - start) * factor);
-	}
+	public float SliderSens = 1.0f;
 }

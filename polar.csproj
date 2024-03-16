@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>polar</AssemblyName>
     <Description>Mouse input mapping to polar coordinates for an alternative control scheme for GOI</Description>
     <Version>2.1.0</Version>
@@ -17,10 +17,10 @@
 
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>./lib/net46/Assembly-CSharp.dll</HintPath>
+      <HintPath>./lib/netstandard2.0/Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core">
-      <HintPath>./lib/net46/Rewired_Core.dll</HintPath>
+      <HintPath>./lib/netstandard2.0/Rewired_Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 

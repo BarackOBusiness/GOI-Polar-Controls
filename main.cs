@@ -6,7 +6,7 @@ using Rewired;
 
 namespace polar;
 
-[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Input Scheme", "2.1.0")]
+[BepInPlugin("goiplugins.ext.polarcoordinates", "Polar Coordinate Input Scheme", "2.2.0")]
 public class PolarCoordinates : BaseUnityPlugin
 {
 	static ConfigEntry<float> rotationSens;
@@ -31,16 +31,16 @@ public class PolarCoordinates : BaseUnityPlugin
 			destroyedCursor = true;
 		}
 	
-		// The 3000 and 1.5625 here are good default sensitivity values for a ~1600 dpi mouse
+		// The 400 and 1.5625 here are good default sensitivity values for a ~1600 dpi mouse
 		// so sensitivity config values are just a multiplier of that
 		float mouseX = ___player.GetAxis("mouseX") * 400f * rotationSens.Value;
 		float mouseY = ___player.GetAxis("mouseY") * 1.5625f * sliderSens.Value;
 
-		float motorSpeed = CircularLerp(___motor.motorSpeed, mouseX, 1.0f / 3.0f);
+		float motorSpeed = Mathf.SmoothStep(___motor.motorSpeed, mouseX, 0.5f);
 		___motor.motorSpeed = -Mathf.Clamp(motorSpeed, -800f, 800f);
 		__instance.hj.motor = ___motor;
 
-		motorSpeed = CircularLerp(___slider.motorSpeed, mouseY, 0.125f);
+		motorSpeed = Mathf.SmoothStep(___slider.motorSpeed, mouseY, 0.25f);
 		___slider.motorSpeed = Mathf.Clamp(motorSpeed, -50f, 50f);
 		__instance.sj.motor = ___slider;
 
@@ -51,10 +51,5 @@ public class PolarCoordinates : BaseUnityPlugin
 	[HarmonyPostfix]
 	static void Cleanup() {
 		destroyedCursor = false;
-	}
-
-	static float CircularLerp(float start, float end, float t) {
-		float factor = Mathf.Sin(0.5f * Mathf.PI * t);
-		return start + ((end - start) * factor);
 	}
 }

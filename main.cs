@@ -25,10 +25,24 @@ public class PolarCoordinates : BaseUnityPlugin
 
 	[HarmonyPatch(typeof(PlayerControl), "FixedUpdate")]
 	[HarmonyPrefix]
-	static bool RealFixedUpdate(PlayerControl __instance, ref Player ___player, ref JointMotor2D ___motor, ref JointMotor2D ___slider) {
+	static bool RealFixedUpdate(
+		PlayerControl __instance,
+		ref Player ___player,
+		ref JointMotor2D ___motor,
+		ref JointMotor2D ___slider,
+		ref float ___pauseInputTimer
+	) {
 		if (!destroyedCursor && __instance.fakeCursor.gameObject != null) {
 			Component.Destroy(__instance.fakeCursor.GetComponent<SpriteRenderer>());
 			destroyedCursor = true;
+		}
+
+		if (___pauseInputTimer > 0f) {
+			___pauseInputTimer -= Time.fixedDeltaTime * 2f;
+			if (___pauseInputTimer < 0f) {
+				___pauseInputTimer = 0f;
+			}
+			return false;
 		}
 	
 		// The 400 and 1.5625 here are good default sensitivity values for a ~1600 dpi mouse
